@@ -1,14 +1,10 @@
 package zalex14.testing.service;
 
-import java.nio.channels.UnresolvedAddressException;
+import zalex14.testing.model.User;
 
 /**
- * Обрабатываем данные
+ * Интерфейс метода присутствия юзера в списке
  */
 public interface UserService {
-    boolean isValidUser(String login, String email);
-
-    boolean isValidLogin(String login) throws IllegalArgumentException;
-
-    boolean isValidEmail(String email) throws UnresolvedAddressException;
+    boolean checkUserExist(User user);
 }

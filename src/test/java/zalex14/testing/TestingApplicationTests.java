@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 class TestingApplicationTests {
     @Test
-    @DisplayName("Тестирование. 2. JUnit")
+    @DisplayName("Тестирование. 3. Mockito")
     public void shouldOutputMessage() {
     }
 }
