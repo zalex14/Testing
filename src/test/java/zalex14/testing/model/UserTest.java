@@ -19,9 +19,9 @@ class UserTest {
     @Test
     @DisplayName("1. Тестирование создания объекта User с передачей в него двух параметров")
     public void shouldCreateUserWhenDataSet() {
-        String result = new User(CORRECT_LOGIN, CORRECT_EMAIL).toString();
-        Assertions.assertTrue(result.contains(CORRECT_LOGIN));
-        Assertions.assertTrue(result.contains(CORRECT_EMAIL));
+        User user = new User(CORRECT_LOGIN, CORRECT_EMAIL);
+        Assertions.assertEquals(CORRECT_LOGIN, user.getLogin());
+        Assertions.assertEquals(CORRECT_EMAIL, user.getEmail());
     }
 
     /**
@@ -30,10 +30,9 @@ class UserTest {
     @Test
     @DisplayName("2. Тестирование создания объекта User без передачи в него параметров")
     public void shouldCreateUserWhenDataNotTransferred() {
-        String result = new User().toString();
-        Assertions.assertNotNull(result);
-        Assertions.assertTrue(result.contains(DEFAULT_LOGIN));   // Инициализируемое значение
-        Assertions.assertTrue(result.contains(DEFAULT_EMAIL));   // Инициализируемое значение
+        User user = new User();
+        Assertions.assertEquals(DEFAULT_LOGIN, user.getLogin());    // Инициализируемое значение
+        Assertions.assertEquals(DEFAULT_EMAIL, user.getEmail());    // Инициализируемое значение
     }
 
     /**
@@ -41,20 +40,19 @@ class UserTest {
      * Некорректным будет считаться тот email, в котором нет знака @ или же знака точки
      */
     @Test
-    @DisplayName("3. Тестирование установлен ли корректный Email адрес в поле email в классе User")
-    public void shouldDifferentEmailAndLogin() {
-        String result = new User(LOWER_CASE_LOGIN, LOWER_CASE_EMAIL).getEmail();
-        Assertions.assertTrue(result.contains("@") && result.contains("."));
-
+    @DisplayName("3. Тестирование установлен ли корректный Email адрес через исключение")
+    public void shouldThrowRuntimeExceptionWhenEmailIncorrect() {
+        Assertions.assertThrows(RuntimeException.class, ()-> new User(CORRECT_LOGIN, ILLEGAL_CHARACTERS_EMAIL));
+        Assertions.assertDoesNotThrow(()-> new User(CORRECT_LOGIN, WITH_IP_ADDRESS_EMAIL));
     }
 
     /**
-     * 4. Тестирование равны ли login и email
+     * 4. Тестирование равны ли login и email через исключение
      */
     @Test
-    @DisplayName(" 4. Тестирование равны ли login и email")
-    public void shouldUserExistWhenDataNotTransferred() {
-        User user = new User(UPPER_CASE_LOGIN, UPPER_CASE_EMAIL);
-        Assertions.assertNotEquals(user.getLogin(), user.getEmail());
+    @DisplayName(" 4. Тестирование равны ли login и email через исключение")
+    public void shouldUserDifferentEmailAndLogin() {
+        Assertions.assertDoesNotThrow(()-> new User(DEFAULT_LOGIN, WITH_IP_ADDRESS_EMAIL));
+        Assertions.assertThrows(RuntimeException.class, () -> new User(DEFAULT_EMAIL, DEFAULT_EMAIL));
     }
 }

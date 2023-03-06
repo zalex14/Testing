@@ -17,14 +17,15 @@ import static zalex14.testing.constants.UserTestConstants.*;
 public class UserParameterizedTest {
     /**
      * 1. Параметризованное тестирование создания объекта User с передачей в него двух параметров
+     * Проверяем как на валидные, так и не валидные параметры
      */
     @ParameterizedTest
     @MethodSource("dataForTests")
     @DisplayName("1. Параметризованное тестирование создания объекта User с передачей в него двух параметров")
     public void shouldCreateUserWhenDataSet(String login, String email) {
-        String result = new User(login, email).toString();
-        Assertions.assertTrue(result.contains(login));
-        Assertions.assertTrue(result.contains(email));
+        User user = new User(login, email);
+        Assertions.assertEquals(login, user.getLogin());
+        Assertions.assertEquals(email, user.getEmail());
     }
 
     public static Stream<Arguments> dataForTests() {
